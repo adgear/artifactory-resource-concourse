@@ -84,7 +84,11 @@ fi
 args_url="$endpoint$repository/$file"
 
 # echo -f $args_security "-O" "$args_url"
-MSG=`curl -f $args_security "-O" "$args_url"`
+MSG=`curl -L -f $args_security "-O" "$args_url"`
+
+if [ -z $MSG ]; then
+  MSG="{}"
+fi
 
 if echo $MSG | jq -e 'has("errors")' >/dev/null ; then
   echo "Endpoint returned server error:"
